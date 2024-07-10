@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/motelroom-manager
+    username: root
+    password: 0945057018
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 8080
+  servlet:
+    context-path: /motel-room manager
+  thymeleaf:
+    cache: false
