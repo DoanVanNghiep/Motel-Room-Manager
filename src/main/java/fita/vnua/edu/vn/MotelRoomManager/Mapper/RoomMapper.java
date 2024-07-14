@@ -18,6 +18,8 @@ public class RoomMapper implements EntityMapper<Room, RoomDto> {
                 .roomNumber(roomDto.getRoomNumber())
                 .price(roomDto.getPrice())
                 .status(roomDto.getStatus())
+                .area(roomDto.getArea())
+                .address(roomDto.getAddress())
                 .build();
     }
 
@@ -39,6 +41,8 @@ public class RoomMapper implements EntityMapper<Room, RoomDto> {
                 .price(room.getPrice())
                 .roomNumber(room.getRoomNumber())
                 .status(room.getStatus())
+                .area(room.getArea())
+                .address(room.getAddress())
                 .build();
     }
 

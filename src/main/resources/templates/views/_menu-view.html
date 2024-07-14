@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="h_menu" th:fragment="menu">
+    <a th:href="@{/}"><i class="fa fa-fw fa-home" style="color: red"></i>Trang chủ</a>
+    <a href="">Phòng phổ biến</a>
+    <a href="">Phòng mới</a>
+    <a href="">Phòng đơn</a>
+    <a href="">Phòng đôi</a>
+    <a href="">Phòng VIP</a>
+    <input type="text" placeholder="Tìm sách ..." name="search" onkeyup ="activeAsLink('/clientHome?keyword='+this.value)">
+</div>
+</body>
+</html>

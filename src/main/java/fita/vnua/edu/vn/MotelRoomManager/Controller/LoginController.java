@@ -1,10 +1,12 @@
 package fita.vnua.edu.vn.MotelRoomManager.Controller;
 
 import fita.vnua.edu.vn.MotelRoomManager.Domain.User;
+import fita.vnua.edu.vn.MotelRoomManager.Dto.RoomDto;
 import fita.vnua.edu.vn.MotelRoomManager.FormBean.LoginForm;
 import fita.vnua.edu.vn.MotelRoomManager.Repository.UserRepository;
 import fita.vnua.edu.vn.MotelRoomManager.Service.LoginService;
 import fita.vnua.edu.vn.MotelRoomManager.Service.ParamService;
+import fita.vnua.edu.vn.MotelRoomManager.Service.RoomService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -24,7 +26,8 @@ public class LoginController {
 
     @Autowired
     ParamService paramService;
-
+    @Autowired
+    RoomService roomService;
 
     // repository
     @Autowired
@@ -35,10 +38,10 @@ public class LoginController {
         return "views/login";
     }
 
-    @GetMapping("/register")
-    public String viewRegister(){
-        return "views/register";
-    }
+//    @GetMapping("/register")
+//    public String viewRegister(){
+//        return "views/register";
+//    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session, HttpServletResponse response){

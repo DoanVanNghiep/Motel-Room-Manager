@@ -30,4 +30,10 @@ public class Room {
     @Column(name = "image")
     private String image;
 
+    @Column(name = "area")
+    private Double area;
+
+    @Column(name = "address")
+    private String address;
+
 }

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="leftcolumn" th:fragment="left-sidebar" >
+  <div class="block">
+    <div class="v_menu">
+      <a href=""><i class="fa fa-bed" style="color: red"></i>&nbsp;Phòng 100-109(tầng 1)</a>
+      <br><a href=""><i class="fa fa-bed" style="color: red"></i>&nbsp;Phòng 200-209(tầng 2)</a>
+      <br><a href=""><i class="fa fa-bed" style="color: red"></i>&nbsp;Phòng 300-309(tầng 3)</a>
+      <br><a href=""><i class="fa fa-bed" style="color: red"></i>&nbsp;Phòng 400-409(tầng 4)</a>
+      <br><a href=""><i class="fa fa-bed" style="color: red"></i>&nbsp;Phòng 500-509(tầng 5)</a>
+      <br><a href=""><i class="fa fa-bed" style="color: red"></i>&nbsp;Phòng 600-609(tầng 6)</a>
+    </div>
+  </div>
+
+  <div class="block" align="center">
+    <h2>Phòng mới</h2>
+    <div>
+      <span >
+
+      </span>
+      <c:forEach items="${bookList }" var="book">
+        <img class="mySlides" id="bookImage" alt="" src="${book.imagePath }"
+             width="70%">
+
+      </c:forEach>
+    </div>
+
+    <script>
+      var myIndex = 0;
+      carousel();
+
+      function carousel() {
+        let x = document.getElementsByClassName("mySlides");
+
+        for (let i = 0; i < x.length; i++) {
+          x[i].style.display = "none";
+        }
+        myIndex++;
+        if (myIndex > x.length) {
+          myIndex = 1
+        }
+        x[myIndex - 1].style.display = "block";
+        setTimeout(carousel, 8000)
+      }
+    </script>
+  </div>
+
+  <div class="block">
+    <h3>Đăng kí nhận mail</h3>
+    <input type="text" placeholder="Nhập email...">
+    <button class="green_button"
+            style="margin-top: 15px; padding: 15px; padding-top: 5px; padding-bottom: 5px">
+      Gửi<i class="fa fa-send-o" style="color: white"></i>
+    </button>
+  </div>
+</div>
+</body>
+</html>

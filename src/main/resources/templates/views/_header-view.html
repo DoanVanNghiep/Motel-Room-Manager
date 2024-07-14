@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Website Cửa hàng Sách với Thymeleaf</title>
+  <script type="text/javascript" th:src="@{/js/motelroom_script.js}"></script>
+  <link rel="stylesheet" th:href="@{/css/style-header.css}">
+  <link rel="stylesheet" th:href="@{/css/motelroom_style.css}">
+  <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+</head>
+<body>
+<div class="header" th:fragment="header" >
+  <h1>Website Quản Lý Phòng Trọ với Thymeleaf</h1>
+  <div class="header_right" style="float: right; text-align: right;">
+    <th:block th:if="${session.user != null}">
+      Xin chào: <b th:text="${session.user.fullName}"></b>
+      |
+      <a th:href="@{/accountInfo}">Thông tin tài khoản</a>
+      |
+      <a th:href="@{/customerOrderList}"><i class="fa fa-first-order" style="color: red"></i>Thông tin đơn hàng</a>
+      |
+<!--&lt;!&ndash;      <th:block th:if="${not #lists.isEmpty(cartOfCustomer)}">&ndash;&gt;-->
+<!--        <a th:href="@{/cartBook/viewCart}"><i class="fa fa-shopping-cart" style="color: red"></i>Giỏ hàng</a>-->
+<!--      </th:block>-->
+      |
+      <a th:href="@{/logout}"><i class="fa fa-user-circle-o" style="color: red"></i>Đăng xuất</a>
+    </th:block>
+    <th:block th:if="${session.user == null}">
+      <a th:href="@{/login}"><i class="fa fa-user-circle-o" style="color: red"></i>Đăng nhập</a>
+    </th:block>
+  </div>
+</div>
+
+</body>
+</html>

@@ -20,4 +20,6 @@ public class RoomDto {
     private Double price;
     private Integer status;
     private String image;
+    private Double area;
+    private String address;
 }

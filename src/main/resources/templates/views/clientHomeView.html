@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/motelroom_style.css}">
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+  <title>Website Quản Lý Phòng Trọ</title>
+  <style>
+    .mySlides {display: none;}
+  </style>
+</head>
+<body>
+<div th:replace="views/_header-view.html::header"></div>
+<div th:replace="views/_menu-view.html::menu"></div>
+<div class="row">
+  <div th:replace="views/_left_sidebar-view.html::left-sidebar"></div>
+    <div class="rightcolumn" layout:fragment="content">
+      <div class="block" align="center" id="searchResult">
+        <div th:each="room : ${roomList}" class="item_content">
+          <img th:src="@{'/image/' + ${room.image}}" alt="Room Image" height="180px" style="max-width: 100%">
+          <p style="height: 30px; margin: 5px;"><b th:text="${room.roomNumber}"></b></p>
+          <hr>
+          <p style="margin: 5px;">
+            <span th:text="${room.price}"></span><sup>tr/1 month</sup>
+            &nbsp;&nbsp;
+            <a th:href="@{'/details/' + ${room.id}}">Xem chi tiết</a>
+          </p>
+        </div>
+      </div>
+    <div class="block" align="center">
+      <div th:if="${keyword == null}">
+        <div style="margin-top: 5px">
+                        <span th:if="${currentPage > 1}">
+                            <a th:href="@{'clientHome?page=' + ${currentPage - 1}}">Previous</a> &nbsp;
+                        </span>
+          <span th:each="i : ${#numbers.sequence(1, noOfPages)}">
+                            <span th:if="${currentPage == i}">
+                                &nbsp;<span th:text="${i}"></span>&nbsp;
+                            </span>
+                            <span th:unless="${currentPage == i}">
+                                &nbsp;<a th:href="@{'clientHome?page=' + ${i}}"><span th:text="${i}"></span></a>&nbsp;
+                            </span>
+                        </span>
+          <span th:if="${currentPage < noOfPages}">
+                            &nbsp;<a th:href="@{'clientHome?page=' + ${currentPage + 1}}">Next</a>
+                        </span>
+        </div>
+      </div>
+      <div th:if="${keyword != null}">
+        <div style="margin-top: 5px">
+                        <span th:if="${currentPage > 1}">
+                            <a th:href="@{'clientHome?page=' + ${currentPage - 1} + '&keyword=' + ${keyword}}">Previous</a>&nbsp;
+                        </span>
+          <span th:each="i : ${#numbers.sequence(1, noOfPages)}">
+                            <span th:if="${currentPage == i}">
+                                &nbsp;<span th:text="${i}"></span>&nbsp;
+                            </span>
+                            <span th:unless="${currentPage == i}">
+                                &nbsp;<a th:href="@{'clientHome?page=' + ${i} + '&keyword=' + ${keyword}}"><span th:text="${i}"></span></a>&nbsp;
+                            </span>
+                        </span>
+          <span th:if="${currentPage < noOfPages}">
+                            &nbsp;<a th:href="@{'clientHome?page=' + ${currentPage + 1} + '&keyword=' + ${keyword}}">Next</a>
+                        </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div th:include="fragments/footer :: footer"></div>-->
+</body>
+</html>
