@@ -36,4 +36,7 @@ public class User {
     @Column(name = "address", length = 250)
     private String address;
 
+    public User(Integer id) {
+        this.id = id;
+    }
 }

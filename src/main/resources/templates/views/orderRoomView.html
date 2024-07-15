@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/motelroom_style.css}">
+  <title>Thanh toán & Đặt mua</title>
+</head>
+<body>
+<div th:replace="views/_header.html :: header"></div>
+<div th:replace="views/_menu.html :: menu"></div>
+
+<div align="center">
+  <h3>THANH TOÁN & ĐẶT MUA</h3>
+  <p style="color: red;" th:text="${errors}"></p>
+  <form th:action="@{/order}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:value="${cart.totalCost}" name="amount"/>
+    <table border="1">
+      <tr>
+        <th align="left">Tài khoản</th>
+        <td th:text="${session.user.username}"></td>
+      </tr>
+      <tr>
+        <th align="left">Họ tên</th>
+        <td th:text="${session.user.fullName}"></td>
+      </tr>
+      <tr>
+        <th align="left">Số di động</th>
+        <td th:text="${session.user}"></td>
+      </tr>
+      <tr>
+        <th align="left">Địa chỉ đăng ký</th>
+        <td th:text="${loginedUser.address}"></td>
+      </tr>
+      <tr>
+        <th align="left">Nhập địa chỉ nhận phòng</th>
+        <td><input type="text" name="deliveryAddress" required="required" size="100"/></td>
+      </tr>
+      <tr>
+        <th align="left">Phương thức thanh toán</th>
+        <td>
+          <input type="radio" name="paymentMode" value="cash" checked="checked" onclick="document.getElementById('uploadDiv').style.display='none';"/> Thanh toán tiền mặt khi nhận phòng<br>
+          <input type="radio" name="paymentMode" value="transfer" onclick="document.getElementById('uploadDiv').style.display='block';"/> Chuyển khoản ngân hàng<br>
+          <div id="uploadDiv" style="padding-left: 30px; display: none;">
+            <br>
+            Quý khách hãy chuyển khoản tới tài khoản dưới đây với nội dung theo một trong 2 mẫu:<br>
+            &ensp;mẫu 1: (Số điện thoại đăng ký tài khoản) - thanh toán đơn hàng<br>
+            &ensp;mẫu 2: (Tên tài khoản đăng ký) - thanh toán đơn hàng<br>
+            Sau đó chụp ảnh màn hình kết quả chuyển khoản hoặc chụp ảnh phiếu xác nhận từ cây ATM<br><br>
+            &ensp;Tên chủ tài khoản:..................<br>
+            &ensp;Số tài khoản:..................<br>
+            &ensp;Chi nhánh ngân hàng:.................<br><br>
+            <b>Chọn ảnh kết quả chuyển khoản:</b>
+            <input type="file" name="file" accept="image/*"/>
+          </div>
+          <input type="radio" name="paymentMode" value="vnpay" onclick="document.getElementById('uploadDiv').style.display='none';"/> Thanh toán qua VNPay
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input class="btn-green" type="submit" value="Đặt mua"/></td>
+      </tr>
+    </table>
+  </form>
+</div>
+
+<script th:src="@{/js/order.js}"></script>
+</body>
+</html>

@@ -2,10 +2,11 @@ package fita.vnua.edu.vn.MotelRoomManager.Mapper;
 
 import fita.vnua.edu.vn.MotelRoomManager.Domain.User;
 import fita.vnua.edu.vn.MotelRoomManager.Dto.UserDto;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class LoginMapper implements EntityMapper<User, UserDto>{
     @Override
     public User toEntity(UserDto userDto) {

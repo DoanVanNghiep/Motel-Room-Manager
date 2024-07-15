@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomService {
@@ -48,6 +49,16 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
+    public Room updateRoomStatus(Integer roomId, int status) {
+        Optional<Room> roomOpt = roomRepository.findById(roomId);
+        if (roomOpt.isPresent()) {
+            Room room = roomOpt.get();
+            room.setStatus(status);
+            return roomRepository.save(room);
+        } else {
+            throw new RuntimeException("Room not found with id " + roomId);
+        }
+    }
     public void deleteRoom(Integer id){ roomRepository.deleteById(id);}
 
     public List<Room> findSimilarRooms(Double price, String kindOfRoom) {

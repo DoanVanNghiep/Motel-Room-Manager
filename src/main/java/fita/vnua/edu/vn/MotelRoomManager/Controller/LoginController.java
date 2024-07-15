@@ -78,8 +78,13 @@ public class LoginController {
                     // 1 ngay(doi ra giay)
                     cookieUserName.setMaxAge(60 * 60 * 24);
                 }
-                response.addCookie(cookieUserName);
-                return "redirect:/";
+                if (user.getRole() == 1){
+                    response.addCookie(cookieUserName);
+                    return "redirect:/adminHome";
+                }else if (user.getRole() == 2){
+                    response.addCookie(cookieUserName);
+                    return "redirect:/clientHome";
+                }
             }
         }
         model.addAttribute("errors",String.join(", ", errors));

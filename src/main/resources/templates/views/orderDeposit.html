@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin phòng và Order</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/motelroom_style.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style-order.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function submitOrderForm() {
+            // Xử lý logic khi submit form order
+            // Sau đó hiển thị form thanh toán
+            $('#orderForm').hide();
+            $('#paymentForm').show();
+        }
+
+        function submitPaymentForm() {
+            // Xử lý logic khi submit form thanh toán
+            alert("Thanh toán thành công!");
+        }
+
+        function goBackToOrderForm() {
+            // Ẩn form thanh toán và hiển thị lại form order
+            $('#paymentForm').hide();
+            $('#orderForm').show();
+        }
+    </script>
+</head>
+<body>
+<div th:replace="views/_header-view.html::header"></div>
+<div th:replace="views/_menu-view.html::menu"></div>
+<div class="container">
+    <div class="room-info">
+        <h3>Thông tin chi tiết phòng</h3>
+        <div th:if="${not #lists.isEmpty(room)}">
+            <table>
+                <tr>
+                    <td width="25%">Tên phòng</td>
+                    <td th:text="${room.roomNumber}"></td>
+                </tr>
+                <tr>
+                    <td>Giá tiền</td>
+                    <td>
+                        <span th:text="${#numbers.formatCurrency(room.price)}"></span><sup>đ</sup>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div style="text-align: justify; text-justify: inner-word; margin: 5px; display: flex;">
+                            <div>
+                                <img style="margin-right: 5px" alt="Room Image" th:src="@{'/image/'+${room.image}}" width="150">
+                            </div>
+                            <span th:utext="${room.address}"></span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <form th:action="@{/deposit-order}" method="post">
+        <div class="order-form" id="orderForm">
+            <h2>Order</h2>
+                <input type="hidden" name="room_id" th:value="${room.id}" >
+                <input type="hidden" name="user_id" th:value="${session.user.id}">
+
+                <label for="name">Họ và tên:</label>
+                <input type="text" id="name" name="name" th:value="${session.user.fullName}" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" th:value="${session.user.email}" required>
+
+                <label for="phone">Số điện thoại:</label>
+                <input type="tel" id="phone" name="phone" th:value="${session.user.phone}" required>
+
+                <label for="phone">Hành động:</label>
+                <input type="text" id="deposit" name="deposit" value="đặt phòng" readonly>
+
+                <label for="price">Giá tiền:</label>
+                <input type="text" id="price" name="price" value="100000" readonly>
+
+            <button type="button" onclick="submitOrderForm()">Tiếp tục</button>
+        </div>
+        <div class="payment-form" id="paymentForm" style="display:none;">
+            <h2>Thanh toán</h2>
+            <th align="left">Phương thức thanh toán</th><br>
+            <td><input type="radio" name="paymentMode" th:value="${1}"
+                       checked="checked"
+                       onclick="document.getElementById('uploadDiv').style.display='none';" />
+                Thanh toán tiền mặt <br> <input type="radio"
+                                                              name="paymentMode" th:value="${2}"
+                                                              onclick="document.getElementById('uploadDiv').style.display='block';" />
+                Chuyển khoản ngân hàng <br>
+                <div id="uploadDiv" style="padding-left: 30px; display: none;"><br>
+                    Quý khách hãy chuyển khoản tới tài khoản dưới đây với nội dung theo một trong 2 mẫu: <br>
+                    &ensp;mẫu 1: (Số điện thoại đăng ký tài khoản) - thanh toán đơn hàng <br>
+                    &ensp;mẫu 2: (Tên tài khoản đăng ký) - thanh toán đơn hàng <br>
+                    Sau đó chụp ảnh màn hình kết quả chuyển khoản hoặc chụp ảnh phiếu xác nhận từ cây ATM <br><br>
+                    &ensp;Tên chủ tài khoản &nbsp;&nbsp;:.................. <br>
+                    &ensp;Số tài khoản&nbsp;&nbsp;&nbsp;&nbsp; :.................. <br>
+                    &ensp;Chi nhánh ngân hàng&nbsp;:................. <br><br>
+                    <b>Chọn ảnh kết quả chuyển khoản:</b>
+                    <img alt="" src="" id="bookImage" width="150">&nbsp;
+                    <input type="file" name="file" accept="image/*" onchange="loadImage(event)" />
+                </div>
+            </td>
+            <button type="submit">Xác nhận</button>
+            <button type="button" onclick="goBackToOrderForm()">Trở về</button>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

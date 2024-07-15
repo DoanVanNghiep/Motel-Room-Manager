@@ -19,11 +19,17 @@
     <div class="rightcolumn" layout:fragment="content">
       <div class="block" align="center" id="searchResult">
         <div th:each="room : ${roomList}" class="item_content">
-          <img th:src="@{'/image/' + ${room.image}}" alt="Room Image" height="180px" style="max-width: 100%">
+          <img th:src="@{'/image/' + ${room.image}}" alt="Room Image" height="auto" style="max-width: 100%">
           <p style="height: 30px; margin: 5px;"><b th:text="${room.roomNumber}"></b></p>
           <hr>
           <p style="margin: 5px;">
-            <span th:text="${room.price}"></span><sup>tr/1 month</sup>
+            <span th:switch="${room.status}">
+                        <span th:case="'1'" style="color: green">Còn trống</span>
+                        <span th:case="'2'" style="color:blue;">Có người thuê</span>
+                        <span th:case="'3'" style="color:red;">Đang sửa chữa</span>
+                        <span th:case="'4'" style="color:black;">Đã được đặt cọc</span>
+            </span> <br><br>
+            <span th:text="${#numbers.formatCurrency(room.price)}"></span><sup>1 tháng</sup><br><br>
             &nbsp;&nbsp;
             <a th:href="@{'/details/' + ${room.id}}">Xem chi tiết</a>
           </p>

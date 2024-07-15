@@ -10,6 +10,6 @@ spring:
 server:
   port: 8080
   servlet:
-    context-path: /motel-room manager
+    context-path: /motel-room
   thymeleaf:
     cache: false

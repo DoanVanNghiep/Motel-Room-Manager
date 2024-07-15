@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/motelroom_style.css}">
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+  <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}">
+  <title>Thông tin chi tiết phòng</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .details, .similar-products {
+      width: 80%;
+      margin: 20px 0;
+    }
+    .details table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .details table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    .similar-products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .product {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    .product img {
+      max-width: 100%;
+      height: auto;
+    }
+    .action-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+    .action-buttons button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="views/_header-view.html::header"></div>
+<div th:replace="views/_menu-view.html::menu"></div>
+
+<div class="container">
+  <div class="details">
+    <h3>Thông tin chi tiết phòng</h3>
+    <div th:if="${not #lists.isEmpty(room)}">
+      <table>
+        <tr>
+          <td width="25%">Tên phòng</td>
+          <td th:text="${room.roomNumber}"></td>
+        </tr>
+        <tr>
+          <td>Giá tiền</td>
+          <td>
+            <span th:text="${#numbers.formatCurrency(room.price)}"></span><sup>đ</sup>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div style="text-align: justify; text-justify: inner-word; margin: 5px; display: flex;">
+              <div>
+                <img style="margin-right: 5px" alt="Room Image" th:src="@{'/image/'+${room.image}}" width="150">
+              </div>
+              <span th:utext="${room.address}"></span>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="action-buttons" th:if="${room.status == 1}">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#payModal">Thuê phòng</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#depositModal">Đặt cọc tiền phòng</button>
+      </div>
+      <div class="action-buttons" th:if="${room.status == 2}">
+        <p style="color: red">Phòng đã được thuê, xin bạn hãy đến vào lần sau hoặc thuê phòng khác.</p>
+      </div>
+      <div class="action-buttons" th:if="${room.status == 3}">
+        <p style="color: red">Phòng đang được sửa chữa, hãy đặt cọc nếu bạn muốn được thuê nó sau khi sửa chữa xong.</p><br>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#depositModal">Đặt cọc tiền phòng</button>
+      </div>
+      <div class="action-buttons" th:if="${room.status == 4}">
+        <p style="color: red">Phòng đã được đặt cọc, hãy đợi vào cơ hội tiếp theo.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Các sản phẩm tương tự</h3>
+  <div class="similar-products">
+    <div th:each="similarRoom : ${similarRooms}" class="product">
+      <img th:src="@{'/image/'+${similarRoom.image}}" alt="Room Image">
+      <h4 th:text="${similarRoom.roomNumber}"></h4>
+      <p>Giá: <span th:text="${#numbers.formatCurrency(similarRoom.price)}"></span><sup>đ</sup></p>
+      <a th:href="@{/roomDetail(id=${similarRoom.id})}">Xem chi tiết</a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Thuê phòng -->
+<div class="modal fade" id="payModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="payModalLabel">Xác nhận thuê phòng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn thuê phòng này không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Trở về</button>
+        <a type="button" class="btn btn-primary" th:href="@{'/checkout-rent/'+${room.id}}">Xác nhận</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Đặt cọc tiền phòng -->
+<div class="modal fade" id="depositModal" tabindex="-1" aria-labelledby="depositModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="depositModalLabel">Xác nhận đặt cọc tiền phòng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn đặt cọc tiền phòng này không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Trở về</button>
+        <a type="button" class="btn btn-primary" th:href="@{'/checkout-deposit/'+${room.id}}">Xác nhận</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js}"></script>
+<script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -25,7 +25,7 @@ public class ViewController {
 
     @GetMapping("/clientHome")
     public String getAllRoom(Model model, @Param("keyword") String keyword,
-                             @RequestParam(name = "pageNo",defaultValue = "1") Integer pageNo){
+                             @RequestParam(name = "page",defaultValue = "1") Integer pageNo){
         Page<Room> rooms = this.roomService.getRooms(pageNo);
         if (keyword != null){
             rooms = this.roomService.searchRoom(keyword,pageNo);

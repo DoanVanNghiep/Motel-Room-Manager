@@ -36,4 +36,7 @@ public class Room {
     @Column(name = "address")
     private String address;
 
+    public Room(Integer id) {
+        this.id = id;
+    }
 }
