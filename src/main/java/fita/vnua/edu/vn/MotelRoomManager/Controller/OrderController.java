@@ -1,14 +1,7 @@
 package fita.vnua.edu.vn.MotelRoomManager.Controller;
 
-import fita.vnua.edu.vn.MotelRoomManager.Domain.Order;
-import fita.vnua.edu.vn.MotelRoomManager.Domain.Payment;
-import fita.vnua.edu.vn.MotelRoomManager.Domain.Room;
-import fita.vnua.edu.vn.MotelRoomManager.Domain.User;
-import fita.vnua.edu.vn.MotelRoomManager.Dto.OrderDto;
-import fita.vnua.edu.vn.MotelRoomManager.Dto.RoomDto;
-import fita.vnua.edu.vn.MotelRoomManager.Service.OrderService;
-import fita.vnua.edu.vn.MotelRoomManager.Service.PaymentService;
-import fita.vnua.edu.vn.MotelRoomManager.Service.RoomService;
+import fita.vnua.edu.vn.MotelRoomManager.Domain.*;
+import fita.vnua.edu.vn.MotelRoomManager.Service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +24,15 @@ public class OrderController {
     RoomService roomService;
 
     @Autowired
+    RenterService renterService;
+    @Autowired
+    RentalContractService rentalContractService;
+
+    @Autowired
     PaymentService paymentService;
+
+    @Autowired
+    UserService userService;
 
     @PostMapping("/deposit-order")
     public String getOrderDeposit(Model model,HttpSession session,
@@ -41,19 +42,44 @@ public class OrderController {
                            @RequestParam("price") Double price){
         Order order = new Order();
         Payment payment = new Payment();
-        Room room = roomService.updateRoomStatus(idRoom, 4);
+        Renter renter = new Renter();
+
+        ///
+        RentalContract rentalContract = new RentalContract();
+        User user = userService.getUser(idUser);
+        renter.setName(user.getFullName());
+        renter.setUser(new User(idUser));
+        renter.setRoom(new Room(idRoom));
+        renter.setEmail(user.getEmail());
+        renter.setPhone(user.getPhone());
+        renterService.createRenter(renter);
+
+
+        ///
+        String idRental = UUID.randomUUID().toString().substring(0,10);
+        rentalContract.setContractCode(idRental);
+        rentalContract.setTenantCode(idUser);
+        rentalContract.setRoomCode(idRoom);
+        rentalContract.setRentalStartDate(new Date().toInstant());
+        rentalContract.setDeposit(price);
+        rentalContractService.createRenter(rentalContract);
+
+        /////
+        Room room = roomService.updateRoomStatus(idRoom, 5);
         order.setRoom(room); // Giả sử bạn có class Room và User
         order.setUser(new User(idUser)); // Làm tương tự với User
         order.setOrderDate(LocalDate.now());
         order.setCheckInDate(LocalDate.now());
+        order.setTotalCost(price);
         order.setStatus("1"); // Trạng thái đơn hàng
+        orderService.processOrder(order);
+        /////
         payment.setRoom(room);
         payment.setUser(new User(idUser));
         payment.setPaymentDate(LocalDate.now());
         payment.setAmount(price);
         payment.setPaymentMethod(idPayment);
         payment.setStatus(1);
-        orderService.processOrder(order);
         paymentService.savePayment(payment);
         return "redirect:/clientHome";
     }
@@ -65,12 +91,49 @@ public class OrderController {
                            @RequestParam("price") Double price){
         Order order = new Order();
         Payment payment = new Payment();
-        Room room = roomService.updateRoomStatus(idRoom, 2);
+        Room r = roomService.getRoom(idRoom);
+        Room room = roomService.updateRoomStatus(idRoom, 5);
+        //////
+        Renter renter = new Renter();
+
+        RentalContract rentalContract = new RentalContract();
+        User user = userService.getUser(idUser);
+        renter.setName(user.getFullName());
+        renter.setUser(new User(idUser));
+        renter.setRoom(new Room(idRoom));
+        renter.setEmail(user.getEmail());
+        renter.setPhone(user.getPhone());
+        renterService.createRenter(renter);
+        //////
+
+
+        String idRental = UUID.randomUUID().toString().substring(0,10);
+        rentalContract.setContractCode(idRental);
+        rentalContract.setTenantCode(idUser);
+        rentalContract.setRoomCode(idRoom);
+        rentalContract.setRentalStartDate(new Date().toInstant());
+        if (price == r.getPrice()){
+            rentalContract.setDaysRemaining(30);
+        }
+        if(price == r.getPrice() * 2 * 0.98){
+            rentalContract.setDaysRemaining(60);
+        }
+        if(price == r.getPrice() * 6 * 0.95){
+            rentalContract.setDaysRemaining(180);
+        }
+        rentalContract.setMonthlyRent(r.getPrice());
+        rentalContract.setDeposit(price);
+        rentalContractService.createRenter(rentalContract);
+
+        /////
         order.setRoom(new Room(idRoom)); // Giả sử bạn có class Room và User
         order.setUser(new User(idUser)); // Làm tương tự với User
         order.setOrderDate(LocalDate.now());
         order.setCheckInDate(LocalDate.now());
         order.setStatus("2"); // Trạng thái đơn hàng
+        order.setTotalCost(price);
+
+        ////
         payment.setRoom(room);
         payment.setUser(new User(idUser));
         payment.setPaymentDate(LocalDate.now());

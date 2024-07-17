@@ -11,12 +11,12 @@
 </head>
 <body>
 <div class="h_menu" th:fragment="menu">
-    <a th:href="@{/}"><i class="fa fa-fw fa-home" style="color: red"></i>Trang chủ</a>
-    <a href="">Phòng phổ biến</a>
-    <a href="">Phòng mới</a>
-    <a href="">Phòng đơn</a>
-    <a href="">Phòng đôi</a>
-    <a href="">Phòng VIP</a>
+    <a th:href="@{/clientHome}"><i class="fa fa-fw fa-home" style="color: red"></i>Trang chủ</a>
+    <a th:href="@{/clientHome}">Phòng mới</a>
+    <a th:href="@{/kindOfRoom/Standard}">Phòng tiêu chuẩn</a>
+    <a th:href="@{/kindOfRoom/Single}">Phòng đơn</a>
+    <a th:href="@{/kindOfRoom/Double}">Phòng đôi</a>
+    <a th:href="@{/kindOfRoom/Suite}">Phòng VIP</a>
     <input type="text" placeholder="Tìm phòng ..." name="search" onclick="window.location.href='/clientHome?keyword='+this.value">
 </div>
 </body>

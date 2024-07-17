@@ -9,6 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,4 +25,6 @@ public class RoomDto {
     private String image;
     private Double area;
     private String address;
+    private LocalDate createDate;
+    private String description;
 }

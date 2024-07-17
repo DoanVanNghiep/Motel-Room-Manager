@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông tin chi tiết phòng trọ</title>
+</head>
+<body>
+<div th:replace="views/_header-admin.html :: header-admin"></div>
+<div th:replace="views/_menu-admin.html :: menu-admin"></div>
+<div align="center" layout:fragment="content">
+    <h3>Thông tin chi tiết phòng trọ</h3>
+    <div th:if="${room != null}">
+        <form id="detailRoomForm" th:action="@{/cartRoom/addToCart}" method="post">
+            <input type="hidden" name="roomId" th:value="${room.id}">
+            <table style="width: 30%;" border="1">
+                <tr>
+                    <td width="25%">Số phòng</td>
+                    <td th:text="${room.roomNumber}"></td>
+                </tr>
+                <tr>
+                    <td>Kiểu phòng</td>
+                    <td th:text="${room.kindOfRoom}"></td>
+                </tr>
+                <tr>
+                    <td>Giá tiền</td>
+                    <td>
+                        <span th:text="${#numbers.formatDecimal(room.price, 1, 'COMMA', 2, 'POINT')}"></span><sup>đ</sup>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ</td>
+                    <td th:text="${room.address}"></td>
+                </tr>
+                <tr>
+                    <td>Diện tích</td>
+                    <td th:text="${room.area}"> mét vuông </td>
+                </tr>
+                <tr>
+                    <td>Trạng thái </td>
+                    <td><span th:switch="${room.status}">
+                        <span th:case="'1'" style="color: green">Còn trống</span>
+                        <span th:case="'2'" style="color:blue;">Có người thuê</span>
+                        <span th:case="'3'" style="color:red;">Đang sửa chữa</span>
+                        <span th:case="'4'" style="color:black;">Đã được đặt cọc</span>
+                </span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div style="text-align: justify; text-justify: inner-word; margin: 5px; display: flex;">
+                            <div>
+                                <img style="margin-right: 5px" alt="Room Image"
+                                     th:src="@{'/image/' + ${room.image}}" width="150">
+                            </div>
+<!--                            <span th:text="${room.area}"></span>-->
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

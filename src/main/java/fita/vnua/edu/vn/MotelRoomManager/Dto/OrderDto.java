@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -15,6 +16,7 @@ public class OrderDto implements Serializable {
     UserDto user;
     LocalDate orderDate;
     LocalDate checkInDate;
+    private Double totalCost;
     String status;
 
 }

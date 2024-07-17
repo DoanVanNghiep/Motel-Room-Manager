@@ -3,6 +3,9 @@ package fita.vnua.edu.vn.MotelRoomManager.Domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,6 +39,11 @@ public class Room {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "createDate")
+    private LocalDate createDate;
+
+    @Column(name = "description")
+    private String description;
     public Room(Integer id) {
         this.id = id;
     }

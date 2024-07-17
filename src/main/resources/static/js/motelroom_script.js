@@ -163,7 +163,7 @@ function onClickRemoveBook(bookTitle, bookId) {
 }
 
 function loadImage(event) {
-    let output = document.getElementById('bookImage');
+    let output = document.getElementById('roomImage');
     output.src = URL.createObjectURL(event.target.files[0]);
     output.onload = function() {
         URL.revokeObjectURL(output.src)

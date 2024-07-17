@@ -23,6 +23,7 @@ public class OrderMapper implements EntityMapper<Order, OrderDto>{
                 .orderDate(orderDto.getOrderDate())
                 .room(roomMapper.toEntity(orderDto.getRoom()))
                 .user(loginMapper.toEntity(orderDto.getUser()))
+                .totalCost(orderDto.getTotalCost())
                 .status(orderDto.getStatus())
                 .build();
     }
@@ -44,6 +45,7 @@ public class OrderMapper implements EntityMapper<Order, OrderDto>{
                 .orderDate(order.getOrderDate())
                 .room(roomMapper.toDTO(order.getRoom()))
                 .user(loginMapper.toDTO(order.getUser()))
+                .totalCost(order.getTotalCost())
                 .status(order.getStatus())
                 .build();
     }

@@ -50,6 +50,7 @@
 <div th:replace="views/_menu-view.html::menu"></div>
 <div class="container">
     <div class="room-info">
+        <h2>Thuê phòng</h2>
         <h3>Thông tin chi tiết phòng</h3>
         <div th:if="${not #lists.isEmpty(room)}">
             <table>
@@ -67,7 +68,7 @@
                     <td colspan="2">
                         <div style="text-align: justify; text-justify: inner-word; margin: 5px; display: flex;">
                             <div>
-                                <img style="margin-right: 5px" alt="Room Image" th:src="@{'/image/'+${room.image}}" width="150">
+                                <img style="margin-right: 5px" alt="Room Image" th:src="@{${room.image}}" width="150">
                             </div>
                             <span th:utext="${room.address}"></span>
                         </div>

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -31,6 +32,8 @@ public class Order {
     @Column(name = "check_in_date", nullable = false)
     private LocalDate checkInDate;
 
+    @Column(name = "total_cost")
+    private Double totalCost; // tong tien don hang
 
     @Column(name = "status", nullable = false, length = 50)
     private String status;

@@ -65,35 +65,78 @@
           <td th:text="${room.roomNumber}"></td>
         </tr>
         <tr>
+          <td>Loại phòng</td>
+          <td th:text="${room.kindOfRoom}"></td>
+        </tr>
+        <tr>
           <td>Giá tiền</td>
           <td>
             <span th:text="${#numbers.formatCurrency(room.price)}"></span><sup>đ</sup>
           </td>
         </tr>
         <tr>
+          <td>Diện tích</td>
+          <td th:text="${room.area} + ' m²'"></td>
+        </tr>
+        <tr>
+          <td>Địa chỉ</td>
+          <td th:text="${room.address}"></td>
+        </tr>
+        <tr>
+          <td>Trạng thái</td>
+          <td th:text="${room.status == 1 ? 'Còn trống' : room.status == 2 ? 'Đã thuê' : room.status == 3 ? 'Đang sửa chữa' : 'Đã đặt cọc'}"></td>
+        </tr>
+        <tr>
+          <td>Mô tả</td>
+          <td th:text="${room.description}"></td>
+        </tr>
+        <tr>
           <td colspan="2">
             <div style="text-align: justify; text-justify: inner-word; margin: 5px; display: flex;">
               <div>
-                <img style="margin-right: 5px" alt="Room Image" th:src="@{'/image/'+${room.image}}" width="150">
+                <img style="margin-right: 5px" alt="Room Image" th:src="@{${room.image}}" width="150">
               </div>
-              <span th:utext="${room.address}"></span>
             </div>
           </td>
         </tr>
       </table>
       <div class="action-buttons" th:if="${room.status == 1}">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#payModal">Thuê phòng</button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#depositModal">Đặt cọc tiền phòng</button>
+        <!-- Thêm kiểm tra khi session.user == null -->
+        <script th:inline="javascript">
+          /*<![CDATA[*/
+          function handleDeposit() {
+            var user = /*[[${session.user}]]*/ null;
+            if (!user) {
+              alert("Bạn cần đăng nhập để đặt cọc phòng.");
+              window.location.href = "/motel-room/login";
+            }
+            // Nếu đã đăng nhập, mở modal đặt cọc
+          }
+          function handleRent() {
+            var user = /*[[${session.user}]]*/ null;
+            if (!user) {
+              alert("Bạn cần đăng nhập để thuê phòng.");
+              window.location.href = "/motel-room/login";
+            }
+            // Nếu đã đăng nhập, mở modal thuê phòng
+          }
+          /*]]>*/
+        </script>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#payModal" onclick="handleRent()">Thuê phòng</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#depositModal" onclick="handleDeposit()">Đặt cọc tiền phòng</button>
       </div>
       <div class="action-buttons" th:if="${room.status == 2}">
         <p style="color: red">Phòng đã được thuê, xin bạn hãy đến vào lần sau hoặc thuê phòng khác.</p>
       </div>
       <div class="action-buttons" th:if="${room.status == 3}">
         <p style="color: red">Phòng đang được sửa chữa, hãy đặt cọc nếu bạn muốn được thuê nó sau khi sửa chữa xong.</p><br>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#depositModal">Đặt cọc tiền phòng</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#depositModal" onclick="handleDeposit()">Đặt cọc tiền phòng</button>
       </div>
       <div class="action-buttons" th:if="${room.status == 4}">
         <p style="color: red">Phòng đã được đặt cọc, hãy đợi vào cơ hội tiếp theo.</p>
+      </div>
+      <div class="action-buttons" th:if="${room.status == 5}">
+        <p style="color: red">Phòng đang chờ xác nhận.</p>
       </div>
     </div>
   </div>
@@ -101,10 +144,10 @@
   <h3>Các sản phẩm tương tự</h3>
   <div class="similar-products">
     <div th:each="similarRoom : ${similarRooms}" class="product">
-      <img th:src="@{'/image/'+${similarRoom.image}}" alt="Room Image">
+      <img th:src="@{${similarRoom.image}}" alt="Room Image">
       <h4 th:text="${similarRoom.roomNumber}"></h4>
       <p>Giá: <span th:text="${#numbers.formatCurrency(similarRoom.price)}"></span><sup>đ</sup></p>
-      <a th:href="@{/roomDetail(id=${similarRoom.id})}">Xem chi tiết</a>
+      <a th:href="@{'/details/' + ${similarRoom.id}}">Xem chi tiết</a>
     </div>
   </div>
 </div>

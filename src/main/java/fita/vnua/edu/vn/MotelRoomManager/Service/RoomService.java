@@ -21,14 +21,10 @@ public class RoomService {
 
     @Autowired
     RoomMapper roomMapper;
-    public Room createRoom(RoomDto roomDto){
-        Room room = new Room();
-        room.setId(roomDto.getId());
-        room.setKindOfRoom(roomDto.getKindOfRoom());
-        room.setRoomNumber(roomDto.getRoomNumber());
-        room.setPrice(roomDto.getPrice());
-        room.setStatus(roomDto.getStatus());
-        room.setImage(roomDto.getImage());
+    public  List<Room> findAll(){
+        return roomRepository.findAll();
+    }
+    public Room createRoom(Room room){
         return roomRepository.save(room);
     }
     public Page<Room> getRooms(Integer pageNo){
@@ -39,13 +35,8 @@ public class RoomService {
     public Room getRoom(Integer id){
         return roomRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
-    public Room updateRoom(Integer id, RoomDto roomDto){
-        Room room = getRoom(id);
-
-        room.setRoomNumber(roomDto.getRoomNumber());
-        room.setPrice(roomDto.getPrice());
-        room.setStatus(roomDto.getStatus());
-        room.setImage(roomDto.getImage());
+    public Room updateRoom(Integer id,Room room){
+        room = getRoom(id);
         return roomRepository.save(room);
     }
 
@@ -73,5 +64,17 @@ public class RoomService {
         Integer end = (pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size() : (int) (pageable.getOffset() + pageable.getPageSize());
         list = list.subList(start, end);
         return new PageImpl<Room>(list, pageable, list.size());
+    }
+
+    // get room floor
+    public Page<Room> roomFloor(Integer pageNo,String floorNumber){
+        Pageable pageable = PageRequest.of(pageNo-1, 6);
+        return this.roomRepository.roomFloor(floorNumber,pageable);
+    }
+    // get kind of room
+
+    public Page<Room> kindOfRoom(Integer pageNo,String kindOfRoom){
+        Pageable pageable = PageRequest.of(pageNo-1, 6);
+        return this.roomRepository.findByKindOfRoom(kindOfRoom,pageable);
     }
 }

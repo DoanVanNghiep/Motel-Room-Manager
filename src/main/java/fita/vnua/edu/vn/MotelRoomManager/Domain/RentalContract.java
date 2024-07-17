@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -19,22 +20,26 @@ public class RentalContract {
     @Column(name = "`Contract Code`", length = 10)
     private String contractCode;
 
-    @Column(name = "`Tenant code`", length = 10)
-    private String tenantCode;
+    @Column(name = "`Tenant code`")
+    private Integer tenantCode;
 
-    @Column(name = "`Room Code`", length = 10)
-    private String roomCode;
+    @Column(name = "`Room Code`")
+    private Integer roomCode;
 
     @Column(name = "`Rental Start Date`")
     private Instant rentalStartDate;
 
     @Column(name = "`Lease End Date`")
-    private Instant leaseEndDate;
+    private LocalDate leaseEndDate;
 
     @Column(name = "Deposit")
     private Double deposit;
 
     @Column(name = "`Monthly Rent`")
     private Double monthlyRent;
+
+    @Column(name = "`DaysRemaining`")
+    private Integer daysRemaining;
+
 
 }
