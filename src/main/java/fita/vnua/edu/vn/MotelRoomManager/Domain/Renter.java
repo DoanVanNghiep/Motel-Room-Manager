@@ -23,6 +23,9 @@ public class Renter {
     @Column(name = "phone", nullable = false, length = 20)
     private String phone;
 
+    @Column(name = "status")
+    private int status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;

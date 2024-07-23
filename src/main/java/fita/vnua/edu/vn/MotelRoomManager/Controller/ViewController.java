@@ -36,4 +36,6 @@ public class ViewController {
         model.addAttribute("roomList",rooms);
         return "/views/clientHomeView";
     }
+
+    // thông tin cá nhân
 }

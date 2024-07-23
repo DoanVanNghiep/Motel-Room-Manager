@@ -2,6 +2,7 @@ package fita.vnua.edu.vn.MotelRoomManager.Controller;
 
 import fita.vnua.edu.vn.MotelRoomManager.Domain.User;
 import fita.vnua.edu.vn.MotelRoomManager.FormBean.LoginForm;
+import fita.vnua.edu.vn.MotelRoomManager.FormBean.RegisterForm;
 import fita.vnua.edu.vn.MotelRoomManager.Repository.UserRepository;
 import fita.vnua.edu.vn.MotelRoomManager.Service.UserService;
 import fita.vnua.edu.vn.MotelRoomManager.Service.ParamService;
@@ -37,10 +38,10 @@ public class LoginController {
         return "views/login";
     }
 
-//    @GetMapping("/register")
-//    public String viewRegister(){
-//        return "views/register";
-//    }
+    @GetMapping("/register")
+    public String viewRegister(){
+        return "views/register";
+    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session, HttpServletResponse response){
@@ -90,5 +91,51 @@ public class LoginController {
         model.addAttribute("loginForm", loginForm);
         return "views/login";
     }
+
+
+    // đăng kí
+    @PostMapping("register-account")
+    public String registerAccount(Model model,
+                                  @RequestParam("username") String username,
+                                  @RequestParam("password") String password,
+                                  @RequestParam("fullName") String fullName,
+                                  @RequestParam("confirmPassword") String confirmPassword,
+                                  @RequestParam("email") String email,
+                                  @RequestParam("phone") String phone,
+                                  @RequestParam("address") String address) {
+        RegisterForm registerForm = new RegisterForm(username, password, confirmPassword, fullName,email,phone,address);
+        // Kiểm tra tính hợp lệ khi nhập vào
+        List<String> errors = registerForm.validate();
+
+
+        if (errors.isEmpty()) {
+            // Kiểm tra tài khoản đã tồn tại chưa
+            User user = userRepository.findByRegister(username);
+            if (user != null) {
+                errors.add("Tài khoản đã tồn tại.!");
+                model.addAttribute("errors", String.join(", ", errors));
+                return "/views/register";
+            }else if (!password.equals(confirmPassword)) {
+                model.addAttribute("errors", String.join(", ", errors));
+                errors.add("Xác nhận mật khẩu không chính xác.!");
+                return "/views/register";
+            } else {
+                User users = new User();
+                users.setRole((byte) 2);
+                users.setUsername(username);
+                users.setFullName(fullName);
+                users.setPassword(password);
+                users.setPhone(phone);
+                users.setEmail(email);
+                users.setRole((byte) 2);
+                users.setAddress(address);
+                userRepository.save(users);
+                model.addAttribute("message","Đăng kí thành công.");
+                return "/views/login";
+            }
+        }
+        return "/views/register";
+    }
+
 
 }

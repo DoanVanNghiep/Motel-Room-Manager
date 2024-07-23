@@ -10,6 +10,7 @@
 <body>
 <div class="container">
   <div class="image-container">
+    <p style="color:green;" th:text="${message}"></p>
     <img th:src="@{/image/image.png}" alt="Description of Image">
     <div class="form-container">
       <div class="card">
@@ -32,9 +33,8 @@
               <button type="submit" class="button1">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </button>
-              <button class="button2">Sign Up</button>
+              <a class="button2" style="text-decoration: none" th:href="@{/register}" >Sign Up</a>
             </div>
-            <button class="button3">Forgot Password</button>
           </form>
         </div>
       </div>
@@ -42,4 +42,5 @@
   </div>
 </div>
 </body>
+
 </html>

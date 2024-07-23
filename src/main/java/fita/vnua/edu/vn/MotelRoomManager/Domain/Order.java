@@ -38,4 +38,14 @@ public class Order {
     @Column(name = "status", nullable = false, length = 50)
     private String status;
 
+    @Column(name = "statusOrder")
+    private int statusOrder;
+    @Column(name = "image")
+    private String image;
+    @Column(name = "method")
+    private int method;
+    @Column(name = "orderNo")
+    private String orderNo;
+
+
 }

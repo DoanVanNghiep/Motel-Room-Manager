@@ -27,8 +27,9 @@
       <div class="tab col-md-2  mt-5">
         <a th:href="@{/adminHome}" class="tablinks">Thống kê</a>
         <a th:href="@{/roomManager}" class="tablinks active">Quản lý Phòng Trọ</a>
-        <a th:href="@{/admin/order/waitingConfirm}" class="tablinks">Quản lý đơn hàng</a>
-        <a th:href="@{/admin/user}" class="tablinks ">Quản lý khách hàng</a>
+        <a th:href="@{order/waitingConfirm}" class="tablinks">Quản lý đơn hàng</a>
+        <a th:href="@{/renter}" class="tablinks ">Quản lý người thuê</a>
+        <a th:href="@{/admin/user}" class="tablinks ">Quản lý hợp đồng</a>
       </div>
       <div class="col-md-10">
         <div id="dashboard" class="tabcontent mt-5">
@@ -70,6 +71,7 @@
                         <span th:case="'2'" style="color:blue;">Có người thuê</span>
                         <span th:case="'3'" style="color:red;">Đang sửa chữa</span>
                         <span th:case="'4'" style="color:black;">Đã được đặt cọc</span>
+                        <span th:case="'5'" style="color:green;">Đang chờ xác nhận</span>
                 </span></td>
                 <td th:text="${#numbers.formatDecimal(room.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></td>
                 <td th:text="${room.address}"></td>

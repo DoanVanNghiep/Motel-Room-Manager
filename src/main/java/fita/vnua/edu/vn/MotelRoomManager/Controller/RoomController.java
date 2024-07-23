@@ -2,9 +2,11 @@ package fita.vnua.edu.vn.MotelRoomManager.Controller;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import fita.vnua.edu.vn.MotelRoomManager.Domain.Renter;
 import fita.vnua.edu.vn.MotelRoomManager.Domain.Room;
 import fita.vnua.edu.vn.MotelRoomManager.Domain.RoomImage;
 import fita.vnua.edu.vn.MotelRoomManager.Dto.RoomDto;
+import fita.vnua.edu.vn.MotelRoomManager.Service.RenterService;
 import fita.vnua.edu.vn.MotelRoomManager.Service.RoomDetailService;
 import fita.vnua.edu.vn.MotelRoomManager.Service.RoomService;
 import fita.vnua.edu.vn.MotelRoomManager.Until.MyUntil;
@@ -38,6 +40,8 @@ public class RoomController {
 
     @Autowired
     RoomService roomService;
+    @Autowired
+    RenterService renterService;
 
     @Autowired
     private Cloudinary cloudinary;
@@ -47,11 +51,13 @@ public class RoomController {
     @GetMapping("/details/{id}")
     public String getRoomDetails(@PathVariable Integer id, Model model) {
         Room room = roomService.getRoom(id);
+        Renter renter = renterService.getRenterByRoomID(id);
         List<Room> similarRooms = roomService.findSimilarRooms(room.getPrice(), room.getKindOfRoom());
-        RoomImage roomImage = roomDetailService.getRoomImage(id);
+        if (renter != null) {
+            model.addAttribute("renter", renter);
+        }
         model.addAttribute("room", room);
         model.addAttribute("similarRooms", similarRooms);
-
         return "views/detailRoomView";
     }
     @GetMapping("/detail_admin/{id}")
@@ -74,6 +80,13 @@ public class RoomController {
         RoomImage roomImage = roomDetailService.getRoomImage(id);
         model.addAttribute("room", room);
         return "views/orderRent";
+    }
+
+    @GetMapping("/checkout-payRoom/{id}")
+    public String getRoomCheckOutpayRoom(@PathVariable Integer id, Model model) {
+        Room room = roomService.getRoom(id);
+        model.addAttribute("room", room);
+        return "views/orderPayRoom";
     }
 
 

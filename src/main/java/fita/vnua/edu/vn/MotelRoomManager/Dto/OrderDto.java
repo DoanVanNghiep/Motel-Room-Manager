@@ -18,5 +18,9 @@ public class OrderDto implements Serializable {
     LocalDate checkInDate;
     private Double totalCost;
     String status;
+    private int statusOrder;
+    private String image;
+    private int method;
+    private String orderNo;
 
 }

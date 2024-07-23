@@ -61,7 +61,7 @@
             </table>
         </div>
     </div>
-    <form th:action="@{/deposit-order}" method="post">
+    <form th:action="@{/deposit-order}" method="post" enctype="multipart/form-data" >
         <div class="order-form" id="orderForm">
             <h2>Order</h2>
                 <input type="hidden" name="room_id" th:value="${room.id}" >
@@ -104,7 +104,7 @@
                     &ensp;Chi nhánh ngân hàng&nbsp;:................. <br><br>
                     <b>Chọn ảnh kết quả chuyển khoản:</b>
                     <img alt="" src="" id="bookImage" width="150">&nbsp;
-                    <input type="file" name="file" accept="image/*" onchange="loadImage(event)" />
+                    <input type="file" name="pathFile" accept="image/*" onchange="previewImage()" />
                 </div>
             </td>
             <button type="submit">Xác nhận</button>
@@ -114,4 +114,24 @@
 
 </div>
 </body>
+<script>
+    function previewImage() {
+        var preview = document.getElementById('preview');
+        var file = document.getElementById('demo_image').files[0];
+        var imageContainer = document.getElementById('image_container');
+
+        if (file) {
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            }
+            reader.readAsDataURL(file);
+            imageContainer.style.display = 'block';
+        } else {
+            preview.src = "";
+            imageContainer.style.display = 'none';
+        }
+    }
+
+</script>
 </html>

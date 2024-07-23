@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,7 +22,20 @@ public class OrderService {
     @Autowired
     OrderMapper orderMapper;
 
+    public Order getOrderById(int id){
+        return orderRepository.findById(id);
+    }
+
     public void processOrder(Order order) {
         orderRepository.save(order);
     }
+    public List<Order> getListOrderByOrderStatus(int orderStatus) {
+        return orderRepository.getOrderByOrderStatus(orderStatus);
+    }
+    public void updateOrderByOrderStatus(int orderStatus, int orderId) {
+        Order order = orderRepository.findById(orderId);
+        order.setStatusOrder(orderStatus);
+        orderRepository.save(order);
+    }
+
 }

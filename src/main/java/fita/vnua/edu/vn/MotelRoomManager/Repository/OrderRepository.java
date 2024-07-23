@@ -16,9 +16,16 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     List<Object[]> getRevenueByMonthYear(@Param("month") int month, @Param("year") int year);
 
     // tính tổng doanh thu cửa hang
-    @Query(value = "select sum(o.totalCost) as revenue from Order o where o.status = '4'")
+    @Query(value = "select sum(o.totalCost) as revenue from Order o where o.statusOrder = 2")
     Long calculateTotalRevenue();
 
     @Query(value = "select COUNT(order_id) from `order`", nativeQuery = true)
     int countOrderById();
+
+    // lay danh sach hoa don theo trang thai hoa don
+    @Query("select ol from Order ol where ol.statusOrder = ?1")
+    List<Order> getOrderByOrderStatus(Integer orderStatus);
+
+    Order findById(int id);
+
 }

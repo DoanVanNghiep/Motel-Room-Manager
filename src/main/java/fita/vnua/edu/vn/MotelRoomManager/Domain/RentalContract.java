@@ -27,7 +27,7 @@ public class RentalContract {
     private Integer roomCode;
 
     @Column(name = "`Rental Start Date`")
-    private Instant rentalStartDate;
+    private LocalDate rentalStartDate;
 
     @Column(name = "`Lease End Date`")
     private LocalDate leaseEndDate;
@@ -41,5 +41,12 @@ public class RentalContract {
     @Column(name = "`DaysRemaining`")
     private Integer daysRemaining;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "room_id", nullable = false)
+    private Room room;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 }

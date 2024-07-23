@@ -13,5 +13,10 @@ public class PaymentService {
     public void savePayment(Payment payment) {
         paymentRepository.save(payment);
     }
+    public Payment update(int status, int roomID) {
+        Payment payment = paymentRepository.findByRoomID(roomID);
+        payment.setStatus(status);
+        return paymentRepository.save(payment);
+    }
 
 }
