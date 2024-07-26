@@ -48,6 +48,7 @@ public class AdminController {
             model.addAttribute("revenueMap", revenueMap);
         }
 
+        System.out.println(revenueMap);
         // tinh tong doanh thu cua hang
         long totalRevenue = calculateTotalRevenue();
         model.addAttribute("totalRevenue", totalRevenue);

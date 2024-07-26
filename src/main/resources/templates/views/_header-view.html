@@ -16,9 +16,7 @@
     <th:block th:if="${session.user != null}">
       Xin chào: <b th:text="${session.user.fullName}"></b>
       |
-      <a th:href="@{/accountInfo}">Thông tin tài khoản</a>
-      |
-      <a th:href="@{/customerOrderList}"><i class="fa fa-first-order" style="color: red"></i>Thông tin đơn hàng</a>
+      <a th:href="@{/customerOrderList}">Thông tin tài khoản/đơn hàng</a>
       |
 <!--&lt;!&ndash;      <th:block th:if="${not #lists.isEmpty(cartOfCustomer)}">&ndash;&gt;-->
 <!--        <a th:href="@{/cartBook/viewCart}"><i class="fa fa-shopping-cart" style="color: red"></i>Giỏ hàng</a>-->

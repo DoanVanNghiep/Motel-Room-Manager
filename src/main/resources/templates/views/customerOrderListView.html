@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/motelroom_style.css}">
+  <title>Thông tin tài khoản/đơn hàng</title>
+</head>
+<body>
+<div th:replace="views/_header-view.html::header"></div>
+<div th:replace="views/_menu-view.html::menu"></div>
+<div align="center">
+  <h3>Xin chào: <span th:text="${session.user.fullName}">User Fullname</span></h3>
+  <table>
+    <tr>
+      <td><b>Tài khoản:</b> &nbsp;<span th:text="${session.user.username}">Username</span></td>
+      <td><b>Số di động:</b> &nbsp;<span th:text="${session.user.phone}">Mobile</span></td>
+      <td><b>Email:</b> &nbsp;<span th:text="${session.user.email}">Email</span></td>
+      <td><b>Địa chỉ:</b> &nbsp;<span th:text="${session.user.address}">Address</span></td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <div align="center">
+    <h3>DANH SÁCH ĐƠN HÀNG</h3>
+    <table border="1">
+      <tr>
+        <th>Mã hóa đơn</th>
+        <th>Ngày đặt mua</th>
+        <th>Trạng thái</th>
+      </tr>
+      <tr th:each="orderOfCustomer : ${orderListOfCustomer}">
+        <td th:text="${orderOfCustomer.orderNo}">Order No</td>
+        <td th:text="${orderOfCustomer.orderDate}">Order Date</td>
+        <td><span th:switch="${orderOfCustomer.status}">
+                        <span th:case="'1'" style="color: green">Còn trống</span>
+                        <span th:case="'2'" style="color:blue;"> Thuê phòng</span>
+                        <span th:case="'3'" style="color:red;">Đang sửa chữa</span>
+                        <span th:case="'4'" style="color:black;">Đặt cọc phòng</span>
+                        <span th:case="'5'" style="color:black;">Đang chờ xác nhận</span>
+            </span></td>
+        <td>
+          <div style="display: block;">
+            <h3>Phòng trong hóa đơn</h3>
+            <table border="1">
+              <tr style="background-color: yellow;">
+                <th>Số phòng</th>
+                <th>Địa chỉ</th>
+                <th>Giá tiền</th>
+                <th>Diện tích</th>
+                <th>Mô tả</th>
+              </tr>
+              <tr>
+                <td th:text="${orderOfCustomer.room.roomNumber}">Room Number</td>
+                <td th:text="${orderOfCustomer.room.address}">Address</td>
+                <td><span th:text="${orderOfCustomer.room.price}"></span><sup>đ</sup></td>
+                <td th:text="${orderOfCustomer.room.area}">Diện tích</td>
+                <td><span th:text="${orderOfCustomer.room.description}"></span></td>
+              </tr>
+            </table>
+            <br> Tổng số tiền: <b><span th:text="${orderOfCustomer.totalCost}"></span> <sup>đ</sup></b>
+          </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</body>
+
+</html>

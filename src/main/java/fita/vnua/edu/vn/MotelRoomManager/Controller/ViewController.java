@@ -1,9 +1,12 @@
 package fita.vnua.edu.vn.MotelRoomManager.Controller;
 
 import fita.vnua.edu.vn.MotelRoomManager.Domain.Room;
+import fita.vnua.edu.vn.MotelRoomManager.Domain.User;
 import fita.vnua.edu.vn.MotelRoomManager.Dto.RoomDto;
+import fita.vnua.edu.vn.MotelRoomManager.Service.OrderService;
 import fita.vnua.edu.vn.MotelRoomManager.Service.RoomDetailService;
 import fita.vnua.edu.vn.MotelRoomManager.Service.RoomService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +26,9 @@ public class ViewController {
     @Autowired
     RoomDetailService roomDetailService;
 
+    @Autowired
+    OrderService orderService;
+
     @GetMapping("/clientHome")
     public String getAllRoom(Model model, @RequestParam(name = "keyword", required = false) String keyword,
                              @RequestParam(name = "page",defaultValue = "1") Integer pageNo){
@@ -38,4 +44,10 @@ public class ViewController {
     }
 
     // thông tin cá nhân
+    @GetMapping("/customerOrderList")
+    public String getCustomerOderList(HttpSession session, Model model){
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("orderListOfCustomer",orderService.getOrderByUserId(user.getId()));
+        return "/views/customerOrderListView";
+    }
 }

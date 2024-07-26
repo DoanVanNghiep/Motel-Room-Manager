@@ -28,4 +28,6 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
 
     Order findById(int id);
 
+    List<Order> getOrderByUserId(Integer idUser);
+
 }

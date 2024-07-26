@@ -37,5 +37,7 @@ public class OrderService {
         order.setStatusOrder(orderStatus);
         orderRepository.save(order);
     }
-
+    public List<Order> getOrderByUserId(int idUser) {
+        return orderRepository.getOrderByUserId(idUser);
+    }
 }
